@@ -1,0 +1,117 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f4f0;
+  font-family: system-ui, -apple-system, sans-serif;
+  padding: 2rem;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #e8e6e0;
+}
+
+.logo-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background-color: #f305d3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 24px;
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.brand-accent {
+  color: #ef03c0;
+}
+
+.subheading {
+  font-size: 15px;
+  color: #888;
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #ececec;
+}
+
+.divider-text {
+  font-size: 12px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-google {
+  background-color: #f802ba;
+  color: #ffffff;
+}
+
+.btn-apple {
+  background-color: #ffffff;
+  color: #f101d1;
+  border: 1.5px solid #1a1a1a;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.footer-note {
+  margin-top: 2rem;
+  font-size: 12px;
+  color: #bbb;
+}
