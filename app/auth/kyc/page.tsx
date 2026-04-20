@@ -22,8 +22,8 @@ export default function KycOnboarding() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const frontInputRef = useRef<HTMLInputElement>(null);
-  const backInputRef = useRef<HTMLInputElement>(null);
+  const frontInputRef = useRef<HTMLInputElement | null>(null);
+  const backInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -42,7 +42,7 @@ export default function KycOnboarding() {
     reader.readAsDataURL(file);
   };
 
-  const pickFromDevice = (inputRef: React.RefObject<HTMLInputElement>) => {
+  const pickFromDevice = (inputRef: React.RefObject<HTMLInputElement | null>) => {
     inputRef.current?.click();
   };
 

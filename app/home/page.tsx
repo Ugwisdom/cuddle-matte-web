@@ -241,7 +241,7 @@ export default function Home() {
           // Transform backend data to match UI format
           const responseItems = (data.services || data) as ServiceData[];
           const transformedServices = responseItems.map((service) => ({
-            id: service._id || service.id,
+            id: Number(service._id || service.id) || 0,
             icon: '💆',
             name: service.name || 'Service',
             count: service.providersCount || 0,
