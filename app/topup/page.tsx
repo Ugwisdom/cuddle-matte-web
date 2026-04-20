@@ -1,13 +1,14 @@
 // app/topup/page.tsx
+export const dynamic = "force-dynamic";
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import apiClient from "@/lib/apiClient";
 
 const QUICK_AMOUNTS = [1000, 2500, 5000, 10000, 25000, 50000];
 
-export default function TopUpPage() {
+function TopUpPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -579,3 +580,10 @@ const styles: Record<string, React.CSSProperties> = {
     lineHeight: "1.5",
   },
 };
+export default function TopUpPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TopUpPageContent />
+    </Suspense>
+  );
+}

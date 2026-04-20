@@ -1,5 +1,19 @@
 "use client";
 
+interface ProfilePageProps {
+  user: any;
+  isDark?: boolean;
+  onBack: () => void;
+  onSettings: () => void;
+  onLogout: () => void;
+  onDislike: () => void;
+  onFavorite: () => void;
+  onLike: () => void;
+  onVerifyEmail: () => void;
+  onKyc: () => void;
+  onOnboarding: () => void;
+}
+
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
@@ -15,7 +29,7 @@ const FALLBACK_IMAGES = [
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-const calculateAge = (dob) => {
+const calculateAge = (dob: string | Date | null | undefined): number | null => {
   if (!dob) return null;
   try {
     const birth = new Date(dob);
@@ -26,7 +40,7 @@ const calculateAge = (dob) => {
   }
 };
 
-const getProfileImages = (user) => {
+const getProfileImages = (user: any): string[] => {
   try {
     const photos = Array.isArray(user?.photos)
       ? user.photos.filter(Boolean).map(String)
@@ -398,15 +412,15 @@ const styles = `
 `;
 
 // ─── HeaderMenu ───────────────────────────────────────────────────────────────
-const HeaderMenu = ({ isDark, onSettings, onLogout }) => {
+const HeaderMenu = ({ isDark, onSettings, onLogout }: { isDark: boolean; onSettings: () => void; onLogout: () => void }) => {
   const [open, setOpen] = useState(false);
-  const menuRef = useRef(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const theme = isDark ? "dark" : "light";
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && e.target instanceof Node && !menuRef.current.contains(e.target)) {
         setOpen(false);
       }
     };
@@ -477,7 +491,7 @@ const HeaderMenu = ({ isDark, onSettings, onLogout }) => {
 };
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-const Section = ({ isDark, title, children }) => {
+const Section = ({ isDark, title, children }: { isDark: boolean; title: string; children: React.ReactNode }) => {
   const theme = isDark ? "dark" : "light";
   return (
     <div className={`pp-section pp-section--${theme}`}>
@@ -487,7 +501,7 @@ const Section = ({ isDark, title, children }) => {
   );
 };
 
-const BasicItem = ({ isDark, icon, label }) => {
+const BasicItem = ({ isDark, icon, label }: { isDark: boolean; icon: string; label: string }) => {
   const theme = isDark ? "dark" : "light";
   return (
     <div className="pp-basic-item">
@@ -497,7 +511,7 @@ const BasicItem = ({ isDark, icon, label }) => {
   );
 };
 
-const VerificationRow = ({ isDark, label, value, status, onClick }) => {
+const VerificationRow = ({ isDark, label, value, status, onClick }: { isDark: boolean; label: string; value: string; status: string; onClick?: () => void }) => {
   const theme = isDark ? "dark" : "light";
 
   let valueClass = "pp-vrow__value ";
@@ -518,7 +532,7 @@ const VerificationRow = ({ isDark, label, value, status, onClick }) => {
   );
 };
 
-const PrefRow = ({ isDark, label, value }) => {
+const PrefRow = ({ isDark, label, value }: { isDark: boolean; label: string; value: string }) => {
   const theme = isDark ? "dark" : "light";
   return (
     <div className="pp-prefrow">
@@ -528,7 +542,7 @@ const PrefRow = ({ isDark, label, value }) => {
   );
 };
 
-const colorToClass = (color) => {
+const colorToClass = (color: string) => {
   switch (color.toLowerCase()) {
     case "#ffa500": return "amber";
     case "#ff4458": return "red";
@@ -539,7 +553,7 @@ const colorToClass = (color) => {
   }
 };
 
-const ActionBtn = ({ children, onClick, size, color }) => {
+const ActionBtn = ({ children, onClick, size, color }: { children: React.ReactNode; onClick?: () => void; size: string; color: string }) => {
   const sizeClass  = size === "lg" ? "pp-action-btn--lg" : "pp-action-btn--sm";
   const colorClass = colorToClass(color);
   return (
@@ -553,20 +567,21 @@ const ActionBtn = ({ children, onClick, size, color }) => {
   );
 };
 
-// ─── ProfilePage ──────────────────────────────────────────────────────────────
-export default function ProfilePage({
-  user,
-  isDark = false,
-  onBack,
-  onSettings,
-  onLogout,
-  onDislike,
-  onFavorite,
-  onLike,
-  onVerifyEmail,
-  onKyc,
-  onOnboarding,
-}) {
+interface ProfilePageProps {
+  user: any;
+  isDark?: boolean;
+  onBack: () => void;
+  onSettings: () => void;
+  onLogout: () => void;
+  onDislike: () => void;
+  onFavorite: () => void;
+  onLike: () => void;
+  onVerifyEmail: () => void;
+  onKyc: () => void;
+  onOnboarding: () => void;
+}
+
+export default function ProfilePage({ user, isDark = false, onBack, onSettings, onLogout, onDislike, onFavorite, onLike, onVerifyEmail, onKyc, onOnboarding }: ProfilePageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const profileImages = getProfileImages(user);
   const theme = isDark ? "dark" : "light";
@@ -606,7 +621,7 @@ export default function ProfilePage({
 
           {/* Indicators */}
           <div className="pp-indicators">
-            {profileImages.map((_, i) => (
+            {profileImages.map((_: string, i: number) => (
               <button
                 key={i}
                 type="button"
@@ -703,7 +718,7 @@ export default function ProfilePage({
         {/* ── Interests ── */}
         <Section isDark={isDark} title="Interests">
           <div className="pp-tags">
-            {interests.map((tag, i) => (
+            {interests.map((tag: string, i: number) => (
               <span key={i} className={`pp-tag pp-tag--${theme}`}>{tag}</span>
             ))}
           </div>
@@ -758,7 +773,7 @@ export default function ProfilePage({
             <div style={{ marginTop: "0.75rem" }}>
               <p className={`pp-muted--${theme}`} style={{ fontSize: "0.875rem", marginBottom: "0.5rem" }}>Styles</p>
               <div className="pp-tags">
-                {user.preferences.styles.map((s, i) => (
+                {user.preferences.styles.map((s: string, i: number) => (
                   <span key={i} className={`pp-tag pp-tag--${theme}`}>{s}</span>
                 ))}
               </div>
@@ -799,7 +814,7 @@ export default function ProfilePage({
             <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
           </svg>
         </ActionBtn>
-        <ActionBtn size="sm" color="#A020F0">
+        <ActionBtn onClick={() => {}} size="sm" color="#A020F0">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#A020F0">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>

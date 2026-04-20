@@ -1,7 +1,8 @@
 // app/screens/wallet/page.tsx  (Next.js 13+ App Router)
+export const dynamic = "force-dynamic";
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE ?? "";
@@ -27,7 +28,7 @@ const QUICK_AMOUNTS = [1000, 2500, 5000, 10000];
 /* ================================================================
    WalletPage
 ================================================================ */
-export default function WalletPage() {
+function WalletPageContent() {
   const router       = useRouter();
   const searchParams = useSearchParams();
 
@@ -601,4 +602,10 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign:  "right",
     margin:     0,
   },
-};
+};export default function WalletPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <WalletPageContent />
+    </Suspense>
+  );
+}
