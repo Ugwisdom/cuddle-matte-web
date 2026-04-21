@@ -13,8 +13,10 @@ export function useAuth() {
 
   // Persist token and user in localStorage for dev convenience.
   const setAuth = async (token: string | null, user: AuthUser) => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+    
     try {
-      if (typeof window === "undefined") return;
       if (token) {
         localStorage.setItem("authToken", String(token));
       } else {
@@ -38,10 +40,11 @@ export function useAuth() {
   const clearAuth = async () => setAuth(null, null);
 
   // Check if user is authenticated via NextAuth or custom auth
-  const isAuthenticated = status === "authenticated" || !!localStorage.getItem("authToken");
+  const isAuthenticated = status === "authenticated" || (typeof window !== "undefined" && !!localStorage.getItem("authToken"));
 
   // Get user data from NextAuth session or localStorage
   const currentUser = session?.user || (() => {
+    if (typeof window === "undefined") return null;
     try {
       const stored = localStorage.getItem("authUser");
       return stored ? JSON.parse(stored) : null;

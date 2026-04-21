@@ -7,6 +7,9 @@ import { signIn } from "next-auth/react";
 import apiClient from "@/lib/apiClient";
 import { useAuth } from "@/lib/auth-context";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 export default function SignInPage() {
   const router = useRouter();
   const { setAuth } = useAuth();
@@ -77,6 +80,11 @@ export default function SignInPage() {
       setLoading(false);
     }
   };
+
+  // Prevent SSR issues by only rendering after mount
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <>
