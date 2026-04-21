@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
+import { signOut } from "next-auth/react";
 import styles from "./home.module.css";
 
 // ── Mock data ─────────────────────────────────────────────────────────────────
@@ -209,6 +211,7 @@ function StoryViewer({ stories, storyIndex, segIndex, onClose, onNext, onPrev, o
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated, user } = useAuth();
   const [isDark, setIsDark] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -224,6 +227,13 @@ export default function Home() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [services, setServices] = useState(SERVICES);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Check authentication
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/auth/login');
+    }
+  }, [isAuthenticated, router]);
 
   // Load services on mount
   useEffect(() => {
@@ -268,6 +278,14 @@ export default function Home() {
       try {
         const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
         
+        // For Google OAuth users, we might not have a backend token
+        // In that case, we can use the session user data
+        if (!token && user) {
+          // Handle Google OAuth user - they might not have backend data yet
+          console.log('Google OAuth user detected:', user);
+          return;
+        }
+
         if (!token) {
           return;
         }
@@ -293,8 +311,10 @@ export default function Home() {
       }
     };
 
-    loadUserData();
-  }, []);
+    if (isAuthenticated) {
+      loadUserData();
+    }
+  }, [isAuthenticated, user]);
 
   // Refresh user data function for call after mutations
   const refreshUserData = async () => {
@@ -407,6 +427,9 @@ export default function Home() {
           console.warn('Logout request failed:', err);
         }
       }
+
+      // Sign out from NextAuth as well
+      await signOut({ callbackUrl: '/auth/login' });
 
       // Clear auth token
       if (typeof window !== 'undefined') {

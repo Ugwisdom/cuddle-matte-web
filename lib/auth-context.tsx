@@ -4,9 +4,13 @@
 // in localStorage/sessionStorage. Replace with your real auth
 // context/provider when available.
 
+import { useSession } from "next-auth/react";
+
 export type AuthUser = Record<string, unknown> | null;
 
 export function useAuth() {
+  const { data: session, status } = useSession();
+
   // Persist token and user in localStorage for dev convenience.
   const setAuth = async (token: string | null, user: AuthUser) => {
     try {
@@ -33,7 +37,27 @@ export function useAuth() {
 
   const clearAuth = async () => setAuth(null, null);
 
-  return { setAuth, clearAuth } as const;
+  // Check if user is authenticated via NextAuth or custom auth
+  const isAuthenticated = status === "authenticated" || !!localStorage.getItem("authToken");
+
+  // Get user data from NextAuth session or localStorage
+  const currentUser = session?.user || (() => {
+    try {
+      const stored = localStorage.getItem("authUser");
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  })();
+
+  return {
+    setAuth,
+    clearAuth,
+    isAuthenticated,
+    user: currentUser,
+    session,
+    sessionStatus: status
+  } as const;
 }
 
 export default useAuth;

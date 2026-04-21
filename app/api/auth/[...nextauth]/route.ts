@@ -35,8 +35,17 @@ const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
+        session.user.name = token.name as string;
+        session.user.image = token.image as string;
       }
       return session;
+    },
+    async signIn({ user, account, profile }) {
+      // For Google OAuth, we allow sign in
+      if (account?.provider === "google") {
+        return true;
+      }
+      return false;
     },
     async redirect({ url, baseUrl }) {
       // Allows relative callback URLs
