@@ -5,14 +5,14 @@ interface UseRefreshDataOptions {
   interval?: number;
 }
 
-export function useRefreshData(
-  fetchFn: () => Promise<any>,
+export function useRefreshData<T>(
+  fetchFn: () => Promise<T>,
   deps?: React.DependencyList,
   options?: UseRefreshDataOptions
 ) {
   const { enabled = true, interval = 0 } = options || {};
-  
-  const [data, setData] = useState<any>(null);
+
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

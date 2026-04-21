@@ -1,6 +1,8 @@
-// app/topup/page.tsx
-export const dynamic = "force-dynamic";
 "use client";
+
+// app/topup/page.tsx
+
+export const dynamic = "force-dynamic";
 
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";

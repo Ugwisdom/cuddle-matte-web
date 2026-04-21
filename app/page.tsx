@@ -87,7 +87,7 @@ export default function Page() {
               </div>
             </div>
           </div>
-          <div className="cm-badge cm-badge-match">💘 It's a Match!</div>
+          <div className="cm-badge cm-badge-match">💘 It&apos;s a Match!</div>
           <div className="cm-badge cm-badge-liked">💚 Liked you</div>
         </div>
         <div>

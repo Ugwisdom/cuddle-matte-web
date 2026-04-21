@@ -1,7 +1,40 @@
 "use client";
 
+interface User {
+  photos?: string[];
+  images?: string[];
+  name?: string;
+  age?: number;
+  dateOfBirth?: string;
+  emailVerified?: boolean;
+  kyc?: {
+    status?: string;
+  };
+  location?: string;
+  city?: string;
+  height?: string;
+  bio?: string;
+  interests?: string[];
+  onboarding?: {
+    completed?: boolean;
+  };
+  preferences?: {
+    ageRange?: {
+      min: number;
+      max: number;
+    };
+    maxDistance?: number;
+    styles?: string[];
+  };
+  verification?: {
+    email?: boolean;
+    phone?: boolean;
+    id?: boolean;
+  };
+}
+
 interface ProfilePageProps {
-  user: any;
+  user: User;
   isDark?: boolean;
   onBack: () => void;
   onSettings: () => void;
@@ -566,20 +599,6 @@ const ActionBtn = ({ children, onClick, size, color }: { children: React.ReactNo
     </button>
   );
 };
-
-interface ProfilePageProps {
-  user: any;
-  isDark?: boolean;
-  onBack: () => void;
-  onSettings: () => void;
-  onLogout: () => void;
-  onDislike: () => void;
-  onFavorite: () => void;
-  onLike: () => void;
-  onVerifyEmail: () => void;
-  onKyc: () => void;
-  onOnboarding: () => void;
-}
 
 export default function ProfilePage({ user, isDark = false, onBack, onSettings, onLogout, onDislike, onFavorite, onLike, onVerifyEmail, onKyc, onOnboarding }: ProfilePageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

@@ -1,6 +1,7 @@
-// app/screens/wallet/page.tsx  (Next.js 13+ App Router)
-export const dynamic = "force-dynamic";
 "use client";
+
+// app/wallet/page.tsx  (Next.js 13+ App Router)
+export const dynamic = "force-dynamic";
 
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
