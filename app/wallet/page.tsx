@@ -39,12 +39,17 @@ function WalletPageContent() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setToken(localStorage.getItem("authToken"));
+    const t = localStorage.getItem("authToken");
+    if (!t) {
+      router.replace("/auth/login");
+      return;
+    }
+    setToken(t);
     try {
       const raw = localStorage.getItem("authUser");
       setUser(raw ? JSON.parse(raw) : null);
     } catch { setUser(null); }
-  }, []);
+  }, [router]);
 
   /* wallet state */
   const [loading,  setLoading]  = useState(false);
